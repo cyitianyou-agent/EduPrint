@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    // Vite 配置文件使用 ESM 语义。
+    "module": "ESNext",
+
+    // 与主 tsconfig 一致，避免解析差异。
+    "moduleResolution": "Bundler",
+
+    // 允许从 CJS 生态平滑导入默认导出。
+    "allowSyntheticDefaultImports": true,
+
+    // 仅做类型检查，不输出 JS。
+    "noEmit": true,
+
+    // 给配置文件提供 Node 运行时类型。
+    "types": ["node"]
+  },
+
+  // 仅检查 Vite 配置文件。
+  "include": ["vite.config.ts"]
+}

@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    // 目标语法：与现代浏览器环境匹配，避免过度降级。
+    "target": "ES2020",
+
+    // 使用 class fields 的标准语义，和 Vue + TS 默认行为保持一致。
+    "useDefineForClassFields": true,
+
+    // 交给 Vite 做模块处理，这里保持 ESNext。
+    "module": "ESNext",
+
+    // Bundler 模式能更好匹配 Vite/ESM 的解析策略。
+    "moduleResolution": "Bundler",
+
+    // 开启严格类型检查，尽早暴露潜在缺陷。
+    "strict": true,
+
+    // 保留 JSX 语法（即使当前未使用），避免后续引入 TSX 时再改配置。
+    "jsx": "preserve",
+
+    // 允许直接 import JSON（如后续题库配置文件）。
+    "resolveJsonModule": true,
+
+    // 要求每个文件可独立转译，和 Vite/esbuild 工作流一致。
+    "isolatedModules": true,
+
+    // 改善 CJS 互操作，降低三方包接入成本。
+    "esModuleInterop": true,
+
+    // 编译时可用的全局类型库。
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+
+    // 跳过 .d.ts 内部检查，换取更快编译速度。
+    "skipLibCheck": true,
+
+    // 注入 Node 类型，供 vite.config 和构建脚本场景使用。
+    "types": ["node"]
+  },
+
+  // 应用源码范围。
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
+}
