@@ -11,8 +11,10 @@ export type templateKind = "aiCalc" | "makeTen" | "breakTen";
  * - add: 仅加法
  * - sub: 仅减法
  * - mixed: 加减混合
+ * - makeTen: 凑十法
+ * - breakTen: 破十法
  */
-export type opMode = "add" | "sub" | "mixed";
+export type opMode = "add" | "sub" | "mixed" | "makeTen" | "breakTen";
 
 /**
  * 单个模板的可配置项。

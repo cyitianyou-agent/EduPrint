@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "pages:sync": "bash scripts/sync-pages.sh",
+    "hooks:install": "bash scripts/install-hooks.sh"
   },
   "dependencies": {
     "pinia": "^2.3.1",

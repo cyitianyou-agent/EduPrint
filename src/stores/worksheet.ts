@@ -35,8 +35,16 @@ function createDefault(): sheetConfig {
  * 规则：只要任一模式是 mixed，就等价于加减混合。
  */
 function applyMode(config: sheetConfig): sheetConfig {
-  const hasAdd = config.modeOne === "add" || config.modeTwo === "add";
-  const hasSub = config.modeOne === "sub" || config.modeTwo === "sub";
+  const hasAdd =
+    config.modeOne === "add" ||
+    config.modeTwo === "add" ||
+    config.modeOne === "makeTen" ||
+    config.modeTwo === "makeTen";
+  const hasSub =
+    config.modeOne === "sub" ||
+    config.modeTwo === "sub" ||
+    config.modeOne === "breakTen" ||
+    config.modeTwo === "breakTen";
   const hasMix = config.modeOne === "mixed" || config.modeTwo === "mixed";
 
   if (hasMix) {
@@ -96,7 +104,7 @@ export const useWorksheetStore = defineStore("worksheet", () => {
     }
 
     if (!config.value.allowAdd && !config.value.allowSub && template.value === "aiCalc") {
-      return "AI生成计算题至少需要一种运算方式";
+      return "AI生成计算题至少需要一种出题方式";
     }
 
     return "";

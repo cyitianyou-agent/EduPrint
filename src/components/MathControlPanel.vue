@@ -14,12 +14,16 @@
           <option value="add">加法</option>
           <option value="sub">减法</option>
           <option value="mixed">混合</option>
+          <option value="makeTen">凑十法</option>
+          <option value="breakTen">破十法</option>
         </select>
         <span>出题方式2：</span>
         <select v-model="local.modeTwo">
           <option value="add">加法</option>
           <option value="sub">减法</option>
           <option value="mixed">混合</option>
+          <option value="makeTen">凑十法</option>
+          <option value="breakTen">破十法</option>
         </select>
       </label>
 

@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# 推送前自动校验 GitHub Pages 产物是否和当前源码一致。
+# 关键约束：
+# 1) 仅在推送 master 时执行，避免影响其他临时分支的开发效率。
+# 2) 自动运行 pages 同步脚本，统一构建与资源覆盖逻辑。
+# 3) 若同步后发现 docs 产物发生变化，则拦截本次 push，要求先提交生成文件。
+repoRoot="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repoRoot"
+
+shouldCheck="false"
+
+while read -r localRef localSha remoteRef remoteSha
+do
+  if [[ "$localRef" == "refs/heads/master" ]]
+  then
+    shouldCheck="true"
+  fi
+
+  if [[ "$remoteRef" == "refs/heads/master" ]]
+  then
+    shouldCheck="true"
+  fi
+done
+
+if [[ "$shouldCheck" != "true" ]]
+then
+  exit 0
+fi
+
+echo "[pre-push] 检测到推送 master，开始同步 GitHub Pages 产物..."
+npm run pages:sync
+
+if git diff --quiet -- docs/index.html docs/assets docs/.nojekyll
+then
+  echo "[pre-push] Pages 产物已是最新，继续 push。"
+  exit 0
+fi
+
+echo >&2 "[pre-push] 已生成新的 Pages 产物，已拦截本次 push。"
+echo >&2 "[pre-push] 请先提交这些文件，再重新 push："
+echo >&2 "  git add docs/index.html docs/assets docs/.nojekyll"
+echo >&2 "  git commit -m \"chore: 同步 GitHub Pages 产物\""
+echo >&2 "  git push"
+exit 1

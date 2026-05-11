@@ -1,4 +1,6 @@
-import type { pageData, questionItem, sheetConfig, templateKind } from "../types/worksheet";
+import type { opMode, pageData, questionItem, sheetConfig, templateKind } from "../types/worksheet";
+
+type aiMode = "add" | "sub" | "makeTen" | "breakTen";
 
 /**
  * 生成闭区间随机整数。
@@ -29,11 +31,42 @@ function pickSign(config: sheetConfig): "+" | "-" {
 }
 
 /**
+ * 将单个 mode 展开成 AI 页可执行的出题模式集合。
+ * 约定：
+ * - mixed 代表“普通加减 + 凑十法 + 破十法”的全量混合
+ */
+function expandAiMode(mode: opMode): aiMode[] {
+  if (mode === "mixed") {
+    return ["add", "sub", "makeTen", "breakTen"];
+  }
+
+  if (mode === "makeTen") {
+    return ["makeTen"];
+  }
+
+  if (mode === "breakTen") {
+    return ["breakTen"];
+  }
+
+  return [mode];
+}
+
+/**
+ * 根据 modeOne/modeTwo 组合推断 AI 页当前可用的出题模式。
+ * 去重是为了避免 mixed + add 这类组合出现“重复加法”加权问题。
+ */
+function collectAiMode(config: sheetConfig): aiMode[] {
+  const modeList = [...expandAiMode(config.modeOne), ...expandAiMode(config.modeTwo)];
+  const uniqueMode = Array.from(new Set(modeList));
+  return uniqueMode;
+}
+
+/**
  * 生成通用计算题（AI生成计算题页）。
  * 注意：减法题会强制 leftNum >= rightNum，避免出现负数结果。
  */
-function createAiCalc(config: sheetConfig): questionItem {
-  const opSign = pickSign(config);
+function createBasicCalc(config: sheetConfig, fixedSign?: "+" | "-"): questionItem {
+  const opSign = fixedSign ?? pickSign(config);
   let leftNum = randomInt(config.minValue, config.maxValue);
   let rightNum = randomInt(config.minValue, config.maxValue);
 
@@ -51,6 +84,36 @@ function createAiCalc(config: sheetConfig): questionItem {
     opSign,
     answer
   };
+}
+
+/**
+ * AI 页单题生成器：
+ * - 支持普通加法/减法
+ * - 支持凑十法/破十法
+ */
+function createAiCalc(config: sheetConfig): questionItem {
+  const modeList = collectAiMode(config);
+
+  if (modeList.length === 0) {
+    return createBasicCalc(config);
+  }
+
+  const index = randomInt(0, modeList.length - 1);
+  const nextMode = modeList[index];
+
+  if (nextMode === "makeTen") {
+    return createMakeTen();
+  }
+
+  if (nextMode === "breakTen") {
+    return createBreakTen();
+  }
+
+  if (nextMode === "add") {
+    return createBasicCalc(config, "+");
+  }
+
+  return createBasicCalc(config, "-");
 }
 
 /**

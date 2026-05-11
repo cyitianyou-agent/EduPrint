@@ -15,12 +15,20 @@
 - `npm run dev`：启动本地开发服务（Vite）。
 - `npm run build`：类型检查并构建生产包。
 - `npm run preview`：预览 `dist/` 构建结果。
+- `npm run pages:sync`：构建并同步 GitHub Pages 产物到 `docs/`。
+- `npm run hooks:install`：安装仓库级 hooks（含 `pre-push` 自动校验）。
 
 示例：
 ```bash
 npm install
 npm run dev
 ```
+
+## GitHub Pages 发布约定
+- 发布源固定为 `master` 分支的 `docs/` 目录。
+- 每次推送 `master` 前，需要保证 `docs/index.html`、`docs/assets/`、`docs/.nojekyll` 与当前源码构建结果一致。
+- 推荐先执行 `npm run pages:sync`，再提交并推送。
+- 详细流程见 `docs/github-pages-workflow.md`。
 
 ## 代码风格与命名规范
 - 使用 TypeScript + Vue3 Composition API。
