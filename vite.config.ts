@@ -7,6 +7,9 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
+  // GitHub Pages 项目站点路径（https://<user>.github.io/EduPrint/）。
+  // 使用仓库名作为 base，确保构建后静态资源路径正确。
+  base: "/EduPrint/",
   // Vue 单文件组件编译插件（template/script/style）。
   plugins: [vue()]
 });
