@@ -11,8 +11,9 @@ import BreakTenView from "../views/templates/BreakTenView.vue";
 
 export const router = createRouter({
   // 采用 history 模式，URL 更干净。
-  // 部署到静态站点时需确保服务端回退到 index.html。
-  history: createWebHistory(),
+  // GitHub Pages 项目站点部署在 /EduPrint/ 子路径下，
+  // 这里必须显式使用构建时注入的 BASE_URL，避免首屏路径被当成 /EduPrint/* 无法匹配。
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       // 根路径统一导向数学模板列表，避免空白首页。

@@ -33,8 +33,10 @@
     // 跳过 .d.ts 内部检查，换取更快编译速度。
     "skipLibCheck": true,
 
-    // 注入 Node 类型，供 vite.config 和构建脚本场景使用。
-    "types": ["node"]
+    // 注入 Node + Vite 类型：
+    // - node: 供 vite.config 与脚本侧 API 使用
+    // - vite/client: 提供 import.meta.env / BASE_URL 类型定义
+    "types": ["node", "vite/client"]
   },
 
   // 应用源码范围。
