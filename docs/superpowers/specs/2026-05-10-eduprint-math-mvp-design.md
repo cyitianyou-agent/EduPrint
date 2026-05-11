@@ -1,4 +1,4 @@
-# PrintPageEdit 数学打印制作 MVP 设计
+# EduPrint 数学打印制作 MVP 设计
 
 ## 1. 目标与范围
 

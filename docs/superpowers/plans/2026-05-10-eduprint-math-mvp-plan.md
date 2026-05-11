@@ -1,4 +1,4 @@
-# PrintPageEdit 数学打印制作 MVP 实施计划
+# EduPrint 数学打印制作 MVP 实施计划
 
 ## 步骤 1：工程初始化
 
