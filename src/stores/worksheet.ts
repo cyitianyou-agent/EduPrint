@@ -170,6 +170,14 @@ export const useWorksheetStore = defineStore("worksheet", () => {
     notice.value = "";
   }
 
+  /**
+   * 外部提示写入。
+   * 约束：仅用于 UI 反馈（例如打印降级、导出失败），不参与业务状态计算。
+   */
+  function setNotice(nextNotice: string): void {
+    notice.value = nextNotice;
+  }
+
   return {
     template,
     config,
@@ -178,6 +186,7 @@ export const useWorksheetStore = defineStore("worksheet", () => {
     hasData,
     applyConfig,
     generate,
-    resetByTemplate
+    resetByTemplate,
+    setNotice
   };
 });
